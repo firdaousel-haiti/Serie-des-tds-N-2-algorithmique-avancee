@@ -1,0 +1,88 @@
+exercice1:
+#include <stdio.h>
+
+// Fonction qui retourne l'indice de la première occurrence du minimum
+int indiceMin(int tab[], int n) {
+    int min = tab[0];     // On suppose que le premier élément est le minimum
+    int indice = 0;       // Indice du minimum actuel
+
+    for (int i = 1; i < n; i++) {
+        if (tab[i] < min) {
+            min = tab[i]; // Nouveau minimum trouvé
+            indice = i;   // On met à jour son indice
+        }
+    }
+    return indice; // Retourne l'indice de la première occurrence
+}
+
+int main() {
+    int tab[] = {5,2,4,2,1,7,9,4,1,1};
+    int n = sizeof(tab)/sizeof(tab[0]);
+
+    int indice = indiceMin(tab, n);
+    printf("Indice de la première occurrence du minimum = %d\n", indice);
+
+    return 0;
+}
+exercice2:
+#include <stdio.h>
+
+// Fonction qui calcule le MiniMax d'une matrice n x m
+int MiniMax(int mat[][100], int n, int m) {
+    int minimax = 999999; // Valeur très grande pour initialiser
+
+    for (int i = 0; i < n; i++) {
+        int maxLigne = mat[i][0]; // Max de la ligne i
+        for (int j = 1; j < m; j++) {
+            if (mat[i][j] > maxLigne)
+                maxLigne = mat[i][j];
+        }
+        // On compare avec le minimum global
+        if (maxLigne < minimax)
+            minimax = maxLigne;
+    }
+    return minimax;
+}
+
+int main() {
+    int mat[3][100] = {
+        {5, 8, 2},
+        {7, 6, 9},
+        {4, 3, 10}
+    };
+
+    printf("MiniMax = %d\n", MiniMax(mat, 3, 3));
+    return 0;
+}
+exercice3:
+#include <stdio.h>
+
+// Version récursive simple : a^i
+int puissanceSimple(int a, int i) {
+    if (i == 0) return 1;
+    return a * puissanceSimple(a, i - 1);
+}
+
+// Version exponentiation rapide
+int puissanceRapide(int a, int i) {
+    if (i == 0) return 1;
+    if (i % 2 == 0) {
+        int demi = puissanceRapide(a, i/2);
+        return demi * demi;
+    } else {
+        return a * puissanceRapide(a, i - 1);
+    }
+}
+
+// Somme Σ a^i de i=0 à n
+int somme(int a, int n) {
+    if (n == 0) return 1;
+    return puissanceSimple(a, n) + somme(a, n - 1);
+}
+
+int main() {
+    printf("Puissance simple 2^5 = %d\n", puissanceSimple(2,5));
+    printf("Puissance rapide 2^5 = %d\n", puissanceRapide(2,5));
+    printf("Somme Σ 2^i pour i=0..5 = %d\n", somme(2,5));
+    return 0;
+}
