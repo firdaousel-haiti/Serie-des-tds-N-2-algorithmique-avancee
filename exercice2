@@ -1,0 +1,67 @@
+#include <stdio.h> 
+
+// Définition d'une structure Heure
+typedef struct {
+    int hh; // heures
+    int mm; // minutes
+    int ss; // secondes
+} Heure;
+
+// Conversion d'une heure en nombre total de secondes
+int HeureEnSecondes(Heure h) {
+    return h.hh * 3600 + h.mm * 60 + h.ss;
+}
+
+// Conversion d'un nombre de secondes en structure Heure
+Heure SecondesEnHeure(int total) {
+    Heure h;
+    h.hh = total / 3600;     // Division entière pour obtenir les heures
+    total %= 3600;           // Reste après avoir retiré les heures
+    h.mm = total / 60;       // Division entière pour obtenir les minutes
+    h.ss = total % 60;       // Reste pour les secondes
+    return h;
+}
+
+// Addition de deux heures
+Heure AdditionHeures(Heure h1, Heure h2) {
+    int total = HeureEnSecondes(h1) + HeureEnSecondes(h2);
+    return SecondesEnHeure(total);
+}
+
+// Différence entre deux heures
+Heure DifferenceHeures(Heure h1, Heure h2) {
+    int diff = HeureEnSecondes(h1) - HeureEnSecondes(h2);
+    if (diff < 0) diff = -diff; // Valeur absolue
+    return SecondesEnHeure(diff);
+}
+
+// Affichage d’une heure au format hh:mm:ss
+void AfficherHeure(Heure h) {
+    printf("%02d:%02d:%02d\n", h.hh, h.mm, h.ss);
+}
+
+int main() {
+    Heure h1, h2; // Déclaration de deux variables de type Heure
+
+    // Saisie de la première heure
+    printf("Entrer la 1ère heure (hh mm ss) : ");
+    scanf("%d %d %d", &h1.hh, &h1.mm, &h1.ss);
+
+    // Saisie de la deuxième heure
+    printf("Entrer la 2ème heure (hh mm ss) : ");
+    scanf("%d %d %d", &h2.hh, &h2.mm, &h2.ss);
+
+    // Affichage des heures saisies
+    printf("Heure 1 : "); AfficherHeure(h1);
+    printf("Heure 2 : "); AfficherHeure(h2);
+
+    // Calcul et affichage de la somme
+    Heure somme = AdditionHeures(h1, h2);
+    printf("Somme : "); AfficherHeure(somme);
+
+    // Calcul et affichage de la différence
+    Heure diff = DifferenceHeures(h1, h2);
+    printf("Différence : "); AfficherHeure(diff);
+
+    return 0;
+}
